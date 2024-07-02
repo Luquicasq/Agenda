@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <title>Crear</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f0f3ff;
+            
+                
+        }
+
+        p {
+            font-family: "IBM Plex Sans";
+            min-height: 4%;
+            text-align: right;
+            font-size: 180%;
+            margin: 0;
+            padding-right:0.7%;
+            background-color: #1448ac;
+            font-weight: 800;
+            display: block; 
+        }
+
+        h1{
+            font-family: "Poppins", sans-serif;
+            min-height: 8%;
+            text-align: center;
+            
+            font-size: 370%;
+            margin: 0;
+            padding: 0;
+            background-color: #2f64ca;
+        }
+
+        #div_formulario{
+            display: flex;
+            justify-content: space-around;
+            background-color: #f0f3ff;
+            height: 81.2%;
+            font-family: "Poppins", sans-serif;
+        }
+
+        form{
+            background-color: #fff;
+            padding: 2%;
+            border-radius: 20px;
+            margin: 2%;
+            max-width: 25%;
+            width: 100%;
+            text-align: center;
+            border: solid #f8faff 1px;
+        }
+
+        form label {
+            font-weight: 600;
+        }
+
+        form input, form select {
+            padding: 1%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #boton {
+            background-color: #2f64ca;
+            font-size: 120%;
+            margin-top: 3%;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding-left: 3%;
+            padding-right: 3%;
+        }
+
+        #boton:hover {
+            background-color: #1448ac;
+        }
+
+
+        .titulos_labels{
+            font-size: 110%;
+            display: block;
+            padding-bottom: 0%;
+            text-align: center;
+        }
+
+        .caja_input{
+            width: 50%;
+            font-size: 90%;
+            padding-bottom: 3%;
+            margin-bottom: 5%;
+            text-align: center;
+        }
+
+        .titulo_hora{
+            display: block;
+            margin-top: 3%; 
+            font-size: 110%;
+        }
+
+        .nombre_dia{
+            font-size: 100%;
+        }
+        
+        .select_hora{
+            text-align: center;
+            font-size: 90%;
+            width: 50%;
+        }
+
+        #titulo{
+            font-size: 140%;
+        }
+
+        #div_titulo{
+            min-height: 5%;
+            text-align: center;
+            font-family: "Poppins", sans-serif;
+            background-color: #5E83C7;
+        }
+
+        h2{
+            margin: 0;
+            font-size: 160%;
+            color: #333; 
+            padding: 0; 
+            font-family: "Poppins", sans-serif;
+            font-weight: 550;
+        }
+    </style>
+</head>
+<body>
+    <p></p>
+    <h1>Agenda</h1>
+    <div id="div_titulo">
+        <h2>Crear</h2>
+    </div>
+    <div id="div_formulario">
+        <form class="form1" action="" method="post">
+            <!-- Nombre -->
+            <label class="titulos_labels">Nombre:</label>
+            <input id="nombre_viejo" class="caja_input" required>
+
+            <!-- Descripcion -->
+            <label class="titulos_labels">Descripción:</label>
+            <input id="descripcion" class="caja_input" required>
+            
+            <!-- Dia -->
+            <label class="titulos_labels">Día/s:</label>
+            <div id="div_dias">
+                <div class="dias_checkbox">
+                    <input class="dias_checkbox_input" type="checkbox" id="lunes" value="Lunes">
+                    <label class="nombre_dia" for="lunes">Lunes</label>
+                </div>
+                <div class="dias_checkbox">
+                    <input class="dias_checkbox_input" type="checkbox" id="martes" value="Martes">
+                    <label class="nombre_dia" for="martes">Martes</label>
+                </div>
+                <div class="dias_checkbox">
+                    <input class="dias_checkbox_input" type="checkbox" id="miercoles" value="Miércoles">
+                    <label class="nombre_dia" for="miercoles">Miércoles</label>
+                </div>
+                <div class="dias_checkbox">
+                    <input class="dias_checkbox_input" type="checkbox" id="jueves" value="Jueves">
+                    <label class="nombre_dia" for="jueves">Jueves</label>
+                </div>
+                <div class="dias_checkbox">
+                    <input class="dias_checkbox_input" type="checkbox" id="viernes" value="Viernes">
+                    <label class="nombre_dia" for="viernes">Viernes</label>
+                </div>
+                <div class="dias_checkbox">
+                    <input class="dias_checkbox_input" type="checkbox" id="sabado" value="Sábado">
+                    <label class="nombre_dia" for="sabado">Sábado</label>
+                </div>
+                <div class="dias_checkbox">
+                    <input class="dias_checkbox_input" type="checkbox" id="domingo" value="Domingo">
+                    <label class="nombre_dia" for="domingo">Domingo</label>
+                </div>
+            </div>
+            <!-- Hora -->
+            <label class="titulo_hora" for="horai">Inicio:</label>
+            <select class="select_hora" id="horai" required>
+                <option value="" disabled selected>Seleccione una hora</option>
+            </select>
+            
+            <label class="titulo_hora" for="horaf">Fin:</label>
+            <select class="select_hora" id="horaf">
+                <option value="" disabled selected>Seleccione una hora</option>
+            </select><br>
+            
+            <!-- Boton -->
+            <input id="boton" type="submit" value="Crear">
+        </form>
+    </div>    
+
+    <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                //Conseguir dia para el p
+                let dia = new Date();
+                let fechaFormateada = dia.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
+
+                let fecha = document.getElementsByTagName("p")[0];
+                fecha.textContent = fechaFormateada;
+
+                
+
+
+                //Generar las horas de las cajas del form
+                function generar_horas(elemento_select) {
+                    var hora = 8;
+                    var minutos = 0;
+
+                    while (hora <= 23) {
+                        var select = elemento_select
+                        var horaStr = hora.toString().padStart(2, '0');
+                        var minutosStr = minutos.toString().padStart(2, '0');
+
+                        var horaCompleta = horaStr + ':' + minutosStr;
+                        var opcion = document.createElement("option");
+                        opcion.value = horaCompleta;
+                        opcion.textContent = horaCompleta;
+
+                        select.appendChild(opcion);
+
+                        minutos += 30;
+                        if (minutos >= 60) {
+                            minutos = 0;
+                            hora++;
+                        }
+                    }
+                }
+                generar_horas(document.getElementById("horai"));
+                generar_horas(document.getElementById("horaf"));
+            });
+    </script>
+    
+</body>
+</html>

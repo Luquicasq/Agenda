@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <title>Tabla de Horarios</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;                     
+        }
+
+        p {
+            font-family: "IBM Plex Sans";
+            min-height: 4%;
+            text-align: right;
+            font-size: 180%;
+            margin: 0;
+            padding-right:0.7%;
+            background-color: #1448ac;
+            font-weight: 800;
+            display: block; 
+        }
+
+        h1{
+            font-family: "Poppins", sans-serif;
+            min-height: 8%;
+            text-align: center;
+            
+            font-size: 370%;
+            margin: 0;
+            padding: 0;
+            background-color: #2f64ca;
+        }
+
+        nav {
+            display: flex;
+            min-height: 5%;
+            justify-content: space-between;
+            display: flex;
+            background-color: #5E83C7;  
+            text-align: center;
+        }
+
+        nav a {
+            font-size: 130%;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+            text-decoration: none;
+            color: #333; 
+            width: 25%;
+            padding: 0; 
+            transition: background-color 0.3s;
+            font-family: "Poppins", sans-serif;
+        }
+
+        nav a:hover {
+            background-color: #236078;
+            color: #000;
+        }
+
+        table {
+            max-height: 83%;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+
+        td {
+            border: 2px solid rgb(222, 223, 223);
+            text-align: center;
+            font-size: 89%;
+            font-weight: 550;
+            font-family: "Plus Jakarta Sans";
+            font-style: normal;
+        }
+        th {
+            font-family: "Poppins", sans-serif;
+            font-weight: 400;
+            background-color: #f0f0f0;
+            border: 2px solid rgb(222, 223, 223);
+            text-align: center;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <p></p>
+    <h1>Agenda</h1>
+
+    <nav>
+        <a href="crear.html">Crear</a>
+        <a href="borrar.html">Borrar</a>
+        <a href="editar.html">Editar</a>
+        <a>Github</a>
+    </nav>
+
+    <table id="tablaHorarios">
+        <thead>
+            <tr>
+                <th>Hora</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+                <th>Domingo</th>
+            </tr>
+        </thead>
+        <tbody id="Tbodyx"></tbody>
+    </table>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+
+            // Generar horas
+            const horas = [];
+            for (let h = 8; h <= 23; h++) {
+                horas.push(`${h.toString().padStart(2, '0')}:00`);
+                horas.push(`${h.toString().padStart(2, '0')}:30`);
+            }
+
+            const tbody = document.getElementById('Tbodyx');
+    
+            // Generar filas y celdas
+            horas.forEach(hora => {
+                const row = tbody.insertRow(-1);
+                const cellHora = row.insertCell(0);
+                cellHora.textContent = hora;
+    
+                // Insertar celdas vacías para los días de la semana
+                for (let i = 1; i <= 7; i++) {
+                    const cell = row.insertCell(i);
+                    cell.textContent = '';  
+                }
+            });
+            
+            let dia = new Date();
+            let fechaFormateada = dia.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
+
+            let fecha = document.getElementsByTagName("p")[0];
+            fecha.textContent = fechaFormateada;
+        });
+    </script>
+    
+</body>
+</html>
