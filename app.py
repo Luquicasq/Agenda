@@ -9,13 +9,6 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}}) #Se configura CORS
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://geetdb:fedorax@localhost/Final' #Conexion con DB
 db = SQLAlchemy(app) #Instancia de SQLAlchemy + FLASK
 
-class Agenda(db.Model): 
-    __tablename__ = 'Agenda'
-    id = Column(Integer, primary_key=True)
-    fkt = db.Column(Integer, ForeignKey("Tareas.id"))
-    fkr = db.Column(Integer, ForeignKey("Rutina.id"))
-
-
 class Tareas(db.Model): #Representa una table de la DB
     __tablename__ = 'tareas'
     id = db.Column(db.Integer, primary_key=True)
@@ -32,6 +25,12 @@ class Rutina(db.Model): #Representa una table de la DB
     dia = db.Column(db.String)
     hora = db.Column(db.String)
 
+class Agenda(db.Model): 
+    __tablename__ = 'agenda'
+    id = Column(Integer, primary_key=True)
+    pendiente = db.Column(db.Boolean)
+    fkt = db.Column(Integer, ForeignKey("tareas.id"))
+    fkr = db.Column(Integer, ForeignKey("rutina.id"))
 
 @app.route('/crear_tarea/', methods=['POST'])
 def crear_tarea():
@@ -50,9 +49,13 @@ def crear_tarea():
         db.session.add(tarea)
         db.session.commit()
 
-        # agenda = Agenda(fkt=tarea.id)
-        # db.session.add(agenda)
-        # db.session.commit()
+        tarea_id = tarea.id
+        estado = True
+        print(tarea_id)
+
+        agenda = Agenda(fkt=tarea_id, pendiente=estado)
+        db.session.add(agenda)
+        db.session.commit()
     
     return jsonify({'mensaje': 'todo bien'})
 
