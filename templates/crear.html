@@ -149,7 +149,7 @@
         <form id="formulario" class="form1" action="" method="post">
             <!-- Nombre -->
             <label class="titulos_labels">Nombre:</label>
-            <input id="nombre_viejo" class="caja_input" required name="nombre">
+            <input id="nombre" class="caja_input" required name="nombre">
 
             <!-- Descripcion -->
             <label class="titulos_labels">Descripción:</label>
@@ -199,7 +199,7 @@
             </select><br>
             
             <!-- Boton -->
-            <input id="boton" value="Crear" type="button" onclick='determinar_fetch()'>
+            <input id="boton" value="Crear" type="button" onclick='validar_campos()'>
         </form>
     </div>    
 
@@ -251,6 +251,33 @@
                 }
             }
 
+            function validar_campos(){
+                var formulario = document.getElementById('formulario')
+
+                var nombre = document.getElementById('nombre').value.trim();
+                var descripcion = document.getElementById('descripcion').value.trim();
+                var hora = document.getElementById('horai').value.trim();
+                var checks = formulario.querySelector('input[name="dia"]:checked');
+
+                if(!nombre || !descripcion || !hora || !checks){
+                    if (!nombre) {
+                        alert('Ingrese nombre.');
+                    }
+                    else if (!descripcion) {
+                        alert('Ingrese descripción');
+                    }
+                    else if (!checks) {
+                        alert('Ingrese al menos un día');
+                    }
+                    else if (!hora) {
+                        alert('Ingrese hora de inicio');
+                    }
+                }
+                else {
+                    determinar_fetch();
+                }
+            }
+            
             document.addEventListener("DOMContentLoaded", function() {
                 //Conseguir dia para el p
                 let dia = new Date();

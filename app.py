@@ -39,8 +39,11 @@ def crear_tarea():
         nombre = request.form['nombre']
         descripcion = request.form['descripcion']
         horainicio = request.form['horai']
-        horafin = request.form['horaf']
-        hora = f"{horainicio}-{horafin}"
+        horafin = request.form.get('horaf', '')
+        if horafin == '':
+            hora = horainicio
+        else:
+            hora = f"{horainicio}-{horafin}"
 
         dias_form = request.form.getlist('dia')
         dias = ', '.join(dias_form)
@@ -65,9 +68,12 @@ def crear_rutina():
         nombre = request.form['nombre']
         descripcion = request.form['descripcion']
         horainicio = request.form['horai']
-        horafin = request.form['horaf']
-        hora = f"{horainicio}-{horafin}"
-
+        horafin = request.form.get('horaf', '')
+        if horafin == '':
+            hora = horainicio
+        else:
+            hora = f"{horainicio}-{horafin}"
+            
         dias_form = request.form.getlist('dia')
         dias = ', '.join(dias_form)
 
