@@ -22,7 +22,7 @@ class Rutina(db.Model): #Representa una table de la DB
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String)
     descripcion = db.Column(db.String)
-    dia = db.Column(db.String)
+    dias = db.Column(db.String)
     hora = db.Column(db.String)
 
 class Agenda(db.Model): 
@@ -51,7 +51,6 @@ def crear_tarea():
 
         tarea_id = tarea.id
         estado = True
-        print(tarea_id)
 
         agenda = Agenda(fkt=tarea_id, pendiente=estado)
         db.session.add(agenda)
@@ -59,24 +58,32 @@ def crear_tarea():
     
     return jsonify({'mensaje': 'todo bien'})
 
-@app.route('/modificar_tarea', methods=['POST'])
-def modificar_tarea():
-    tarea_id = request.form['tarea_id']
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    dia = request.form['dia']
-    hora = request.form['hora']
-    
-    tarea = Tareas.query.get(tarea_id)
-    if tarea:
-        tarea.nombre = nombre
-        tarea.descripcion = descripcion
-        tarea.dia = dia
-        tarea.hora = hora
+@app.route('/crear_rutina/', methods=['POST'])
+def crear_rutina():
+    print("aaa")
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        descripcion = request.form['descripcion']
+        horainicio = request.form['horai']
+        horafin = request.form['horaf']
+        hora = f"{horainicio}-{horafin}"
+
+        dias_form = request.form.getlist('dia')
+        dias = ', '.join(dias_form)
+
+        rutina = Rutina(nombre=nombre, descripcion=descripcion, dias=dias, hora=hora)
+        db.session.add(rutina)
         db.session.commit()
-        return "Tarea modificada correctamente."
-    else:
-        return "No se encontró la tarea con ese ID."
+
+        rutina_id = rutina.id
+        estado = True
+
+        agenda = Agenda(fkr=rutina_id, pendiente=estado)
+        db.session.add(agenda)
+        db.session.commit()
+    
+    return jsonify({'mensaje': 'todo bien'})
+
 
 @app.route('/modificar_rutina', methods=['POST'])
 def modificar_rutina():

@@ -199,12 +199,27 @@
             </select><br>
             
             <!-- Boton -->
-            <input id="boton" value="Crear" type="button" onclick='crear()'>
+            <input id="boton" value="Crear" type="button" onclick='determinar_fetch()'>
         </form>
     </div>    
 
     <script>
-            function crear(){
+            function crear_rutina(){
+                event.preventDefault();
+                let infoformulario = new FormData(document.getElementById("formulario"));
+                
+                console.log('aaaaaa')
+                console.log("aaa");
+                fetch('http://127.0.0.1:5000/crear_rutina/',{
+                    method: 'POST', body:infoformulario
+                })
+                .then(response => response.json())
+                .then(data => {console.log(data)})
+                .catch(error => console.log('Se produjo un error', error))
+            
+            }
+
+            function crear_tarea(){
                 event.preventDefault();
                 let infoformulario = new FormData(document.getElementById("formulario"));
 
@@ -216,6 +231,24 @@
                 .then(data => {console.log(data)})
                 .catch(error => console.log('Se produjo un error', error))
             
+            }
+
+            function determinar_fetch(){
+                var cajitas = document.getElementsByName('dia');
+                var dias_cajitas = [];
+
+                for (var dia of cajitas){
+                    if (dia.checked){
+                        dias_cajitas.push(dia.value);
+                    }
+                }
+
+                if (dias_cajitas.length === 1){
+                    crear_tarea();
+                } 
+                else {
+                    crear_rutina();
+                }
             }
 
             document.addEventListener("DOMContentLoaded", function() {
