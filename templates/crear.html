@@ -146,64 +146,78 @@
         <h2>Crear</h2>
     </div>
     <div id="div_formulario">
-        <form class="form1" action="" method="post">
+        <form id="formulario" class="form1" action="" method="post">
             <!-- Nombre -->
             <label class="titulos_labels">Nombre:</label>
-            <input id="nombre_viejo" class="caja_input" required>
+            <input id="nombre_viejo" class="caja_input" required name="nombre">
 
             <!-- Descripcion -->
             <label class="titulos_labels">Descripción:</label>
-            <input id="descripcion" class="caja_input" required>
+            <input id="descripcion" class="caja_input" required name="descripcion">
             
             <!-- Dia -->
             <label class="titulos_labels">Día/s:</label>
             <div id="div_dias">
                 <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="lunes" value="Lunes">
+                    <input class="dias_checkbox_input" type="checkbox" id="lunes" value="Lunes" name="dia">
                     <label class="nombre_dia" for="lunes">Lunes</label>
                 </div>
                 <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="martes" value="Martes">
+                    <input class="dias_checkbox_input" type="checkbox" id="martes" value="Martes" name="dia">
                     <label class="nombre_dia" for="martes">Martes</label>
                 </div>
                 <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="miercoles" value="Miércoles">
+                    <input class="dias_checkbox_input" type="checkbox" id="miercoles" value="Miércoles" name="dia">
                     <label class="nombre_dia" for="miercoles">Miércoles</label>
                 </div>
                 <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="jueves" value="Jueves">
+                    <input class="dias_checkbox_input" type="checkbox" id="jueves" value="Jueves" name="dia">
                     <label class="nombre_dia" for="jueves">Jueves</label>
                 </div>
                 <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="viernes" value="Viernes">
+                    <input class="dias_checkbox_input" type="checkbox" id="viernes" value="Viernes" name="dia">
                     <label class="nombre_dia" for="viernes">Viernes</label>
                 </div>
                 <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="sabado" value="Sábado">
+                    <input class="dias_checkbox_input" type="checkbox" id="sabado" value="Sábado" name="dia">
                     <label class="nombre_dia" for="sabado">Sábado</label>
                 </div>
                 <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="domingo" value="Domingo">
+                    <input class="dias_checkbox_input" type="checkbox" id="domingo" value="Domingo" name="dia">
                     <label class="nombre_dia" for="domingo">Domingo</label>
                 </div>
             </div>
             <!-- Hora -->
             <label class="titulo_hora" for="horai">Inicio:</label>
-            <select class="select_hora" id="horai" required>
+            <select class="select_hora" id="horai" required  name="horai">
                 <option value="" disabled selected>Seleccione una hora</option>
             </select>
             
             <label class="titulo_hora" for="horaf">Fin:</label>
-            <select class="select_hora" id="horaf">
+            <select class="select_hora" id="horaf"  name="horaf">
                 <option value="" disabled selected>Seleccione una hora</option>
             </select><br>
             
             <!-- Boton -->
-            <input id="boton" type="submit" value="Crear">
+            <input id="boton" value="Crear" type="button" onclick='crear()'>
         </form>
     </div>    
 
     <script>
+            function crear(){
+                event.preventDefault();
+                let infoformulario = new FormData(document.getElementById("formulario"));
+
+                console.log("aaa");
+                fetch('http://127.0.0.1:5000/crear_tarea/',{
+                    method: 'POST', body:infoformulario
+                })
+                .then(response => response.json())
+                .then(data => {console.log(data)})
+                .catch(error => console.log('Se produjo un error', error))
+            
+            }
+
             document.addEventListener("DOMContentLoaded", function() {
                 //Conseguir dia para el p
                 let dia = new Date();

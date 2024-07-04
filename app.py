@@ -33,6 +33,28 @@ class Rutina(db.Model): #Representa una table de la DB
     hora = db.Column(db.String)
 
 
+@app.route('/crear_tarea/', methods=['POST'])
+def crear_tarea():
+    print("aaa")
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        descripcion = request.form['descripcion']
+        horainicio = request.form['horai']
+        horafin = request.form['horaf']
+        hora = f"{horainicio}-{horafin}"
+
+        dias_form = request.form.getlist('dia')
+        dias = ', '.join(dias_form)
+
+        tarea = Tareas(nombre=nombre, descripcion=descripcion, dia=dias, hora=hora)
+        db.session.add(tarea)
+        db.session.commit()
+
+        # agenda = Agenda(fkt=tarea.id)
+        # db.session.add(agenda)
+        # db.session.commit()
+    
+    return jsonify({'mensaje': 'todo bien'})
 
 @app.route('/modificar_tarea', methods=['POST'])
 def modificar_tarea():
