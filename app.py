@@ -73,7 +73,7 @@ def crear_rutina():
             hora = horainicio
         else:
             hora = f"{horainicio}-{horafin}"
-            
+
         dias_form = request.form.getlist('dia')
         dias = ', '.join(dias_form)
 
@@ -90,6 +90,23 @@ def crear_rutina():
     
     return jsonify({'mensaje': 'todo bien'})
 
+@app.route('/verificar_tarea_duplicada/', methods=['GET'])
+def verificar_tarea():
+    nombre = request.args.get('nombre')
+    tarea = Tareas.query.filter_by(nombre=nombre).first()
+    if tarea:
+        return jsonify({'existe': True})
+    else:
+        return jsonify({'existe': False})
+
+@app.route('/verificar_rutina_duplicada/', methods=['GET'])
+def verificar_rutina():
+    nombre = request.args.get('nombre')
+    tarea = Rutina.query.filter_by(nombre=nombre).first()
+    if tarea:
+        return jsonify({'existe': True})
+    else:
+        return jsonify({'existe': False})
 
 @app.route('/modificar_rutina', methods=['POST'])
 def modificar_rutina():
