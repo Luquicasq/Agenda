@@ -118,23 +118,37 @@ def crear_rutina():
     
     return jsonify({'mensaje': 'todo bien'})
 
-@app.route('/verificar_tarea_duplicada/', methods=['GET'])
-def verificar_tarea():
-    nombre = request.args.get('nombre')
-    tarea = Tareas.query.filter_by(nombre=nombre).first()
-    if tarea:
-        return jsonify({'existe': True})
-    else:
-        return jsonify({'existe': False})
+# @app.route('/verificar_tarea_duplicada/', methods=['GET'])
+# def verificar_tarea():
+#     nombre = request.args.get('nombre')
+#     tarea = Tareas.query.filter_by(nombre=nombre).first()
+#     if tarea:
+#         return jsonify({'existe': True})
+#     else:
+#         return jsonify({'existe': False})
 
-@app.route('/verificar_rutina_duplicada/', methods=['GET'])
-def verificar_rutina():
-    nombre = request.args.get('nombre')
-    tarea = Rutina.query.filter_by(nombre=nombre).first()
+# @app.route('/verificar_rutina_duplicada/', methods=['GET'])
+# def verificar_rutina():
+#     nombre = request.args.get('nombre')
+#     tarea = Rutina.query.filter_by(nombre=nombre).first()
+#     if tarea:
+#         return jsonify({'existe': True})
+#     else:
+#         return jsonify({'existe': False})
+
+@app.route('/verificar_evento_duplicado')
+def verificar_evento_duplicado():
+    nombre_crear = request.args.get('nombre')
+    print(nombre_crear)
+    tarea = Tareas.query.filter_by(nombre=nombre_crear).first()
+    rutina = Rutina.query.filter_by(nombre=nombre_crear).first()
+
     if tarea:
-        return jsonify({'existe': True})
-    else:
-        return jsonify({'existe': False})
+        return jsonify({'existetarea': True})
+    if rutina:
+        return jsonify({'existerutina': True})
+    return jsonify({'existe': False})
+
 
 
 @app.route('/eliminar_de_agenda')

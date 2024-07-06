@@ -175,27 +175,14 @@
                 event.preventDefault();
                 var nombre_tarea = document.getElementById('nombre').value.trim();
                 var tarea = false
-                fetch("http://127.0.0.1:5000/verificar_tarea_duplicada?nombre=" + nombre_tarea)
+                fetch("http://127.0.0.1:5000/verificar_evento_duplicado?nombre=" + nombre_tarea)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.existe) {
-                        tarea = true}})
-                .catch(error => {console.log('Error en fetch ' + error)})
-            
-            
-                fetch("http://127.0.0.1:5000/verificar_rutina_duplicada?nombre=" + nombre_tarea)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.existe) {
-                        tarea = true}
-                    if(tarea === false){
-                        alert('No se encontró ese evento')
-                    }else {
-                        eliminar_tarea(nombre_tarea)
+                    if (data.existetarea || data.existerutina) {
+                        eliminar_tarea(nombre_tarea)}
+                    else{
+                        alert("No se encontró ese evento")
                     }})
-                .catch(error => {console.log('Error en fetch ' + error)})
-            
-                
             }
             
             document.addEventListener("DOMContentLoaded", function() {

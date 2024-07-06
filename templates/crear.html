@@ -210,11 +210,6 @@
     </div>    
 
     <script>
-            function volver(){
-                
-            }
-
-
             function crear_rutina(event){
                 event.preventDefault();
                 let infoformulario = new FormData(document.getElementById("formulario"));
@@ -240,41 +235,6 @@
                 .catch(error => console.log('Se produjo un error', error))
             
             }
-            function verificar_tarea_duplicada(event){
-                event.preventDefault();
-                var nombre_tarea = document.getElementById('nombre').value.trim();
-
-                fetch('http://127.0.0.1:5000/verificar_tarea_duplicada?nombre=' + nombre_tarea)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.existe) {
-                        alert("Esa tarea ya existe");
-                    }
-                    else {
-                        crear_tarea(event);
-                    }
-                })
-                .catch(error => {console.log('Error en fetch' + error)})
-            }
-
-            function verificar_rutina_duplicada(event){
-                event.preventDefault();
-                var nombre_tarea = document.getElementById('nombre').value.trim();
-
-                fetch('http://127.0.0.1:5000/verificar_rutina_duplicada?nombre=' + nombre_tarea)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.existe) {
-                        alert("Esa rutina ya existe");
-                    }
-                    else {
-                        crear_rutina(event);
-                    }
-                })
-                .catch(error => {console.log('Error en fetch' + error)})
-            }
-            
-
 
             function determinar_fetch(event){
                 event.preventDefault;
@@ -288,12 +248,30 @@
                 }
 
                 if (dias_cajitas.length === 1){
-                    verificar_tarea_duplicada(event);
+                    crear_tarea(event);
                 } 
                 else {
-                    verificar_rutina_duplicada(event);
+                    crear_rutina(event);
                 }
             }
+
+            function verificar_evento_duplicado(event){
+                event.preventDefault();
+                var nombre_tarea = document.getElementById('nombre').value.trim();
+
+                fetch('http://127.0.0.1:5000/verificar_evento_duplicado?nombre=' + nombre_tarea)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.existetarea || data.existerutina) {
+                        alert("Ese evento ya existe");
+                    }
+                    else {determinar_fetch(event)
+                    }
+                })
+                .catch(error => {console.log('Error en fetch' + error)})
+            }
+            
+
 
             function validar_campos(event){
                 event.preventDefault();
@@ -319,7 +297,7 @@
                     }
                 }
                 else {
-                    determinar_fetch(event);
+                    verificar_evento_duplicado(event);
                 }
             }
             
