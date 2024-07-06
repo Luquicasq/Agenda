@@ -143,68 +143,138 @@
         <h2>Editar</h2>
     </div>
     <div id="div_formulario">
-        <form class="form1" action="" method="post">
+        <form id="formulario" class="form1" action="" method="post">
             <!-- Nombre -->
             <label class="titulos_labels">Nombre:</label>
-            <input id="nombre_viejo" class="caja_input" required>
+            <input id="nombre_viejo" class="caja_input" required name="nombre_viejo">
             
             <!-- Nuevo nombre -->
             <label class="titulos_labels">Nuevo nombre:</label>
-            <input id="nuevo_nombre" class="caja_input" required>
+            <input id="nuevo_nombre" class="caja_input" name="nuevo_nombre">
             
             <!-- Descripcion -->
             <label class="titulos_labels">Nueva Descripción:</label>
-            <input id="descripcion" class="caja_input" required>
+            <input id="descripcion" class="caja_input" name="descripcion">
             
-            <!-- Dia -->
-            <label class="titulos_labels">Nuevo Día:</label>
-            <div id="div_dias">
-                <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="lunes" value="Lunes">
-                    <label class="nombre_dia" for="lunes">Lunes</label>
-                </div>
-                <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="martes" value="Martes">
-                    <label class="nombre_dia" for="martes">Martes</label>
-                </div>
-                <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="miercoles" value="Miércoles">
-                    <label class="nombre_dia" for="miercoles">Miércoles</label>
-                </div>
-                <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="jueves" value="Jueves">
-                    <label class="nombre_dia" for="jueves">Jueves</label>
-                </div>
-                <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="viernes" value="Viernes">
-                    <label class="nombre_dia" for="viernes">Viernes</label>
-                </div>
-                <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="sabado" value="Sábado">
-                    <label class="nombre_dia" for="sabado">Sábado</label>
-                </div>
-                <div class="dias_checkbox">
-                    <input class="dias_checkbox_input" type="checkbox" id="domingo" value="Domingo">
-                    <label class="nombre_dia" for="domingo">Domingo</label>
-                </div>
-            </div>
-            <!-- Hora -->
-            <label class="titulo_hora" for="horai">Nuevo Inicio:</label>
-            <select class="select_hora" id="horai" required>
-                <option value="" disabled selected>Seleccione una hora</option>
-            </select>
-            
-            <label class="titulo_hora" for="horaf">Nuevo Fin:</label>
-            <select class="select_hora" id="horaf">
-                <option value="" disabled selected>Seleccione una hora</option>
-            </select><br>
-            
-            <!-- Boton -->
-            <input id="boton" type="submit" value="Editar">
-        </form>
-    </div>    
+             <!-- Dia -->
+             <label class="titulos_labels">Día/s:</label>
+             <div id="div_dias">
+                 <div class="dias_checkbox">
+                     <input class="dias_checkbox_input" type="checkbox" id="lunes" value="Lunes" name="dia">
+                     <label class="nombre_dia" for="lunes">Lunes</label>
+                 </div>
+                 <div class="dias_checkbox">
+                     <input class="dias_checkbox_input" type="checkbox" id="martes" value="Martes" name="dia">
+                     <label class="nombre_dia" for="martes">Martes</label>
+                 </div>
+                 <div class="dias_checkbox">
+                     <input class="dias_checkbox_input" type="checkbox" id="miercoles" value="Miércoles" name="dia">
+                     <label class="nombre_dia" for="miercoles">Miércoles</label>
+                 </div>
+                 <div class="dias_checkbox">
+                     <input class="dias_checkbox_input" type="checkbox" id="jueves" value="Jueves" name="dia">
+                     <label class="nombre_dia" for="jueves">Jueves</label>
+                 </div>
+                 <div class="dias_checkbox">
+                     <input class="dias_checkbox_input" type="checkbox" id="viernes" value="Viernes" name="dia">
+                     <label class="nombre_dia" for="viernes">Viernes</label>
+                 </div>
+                 <div class="dias_checkbox">
+                     <input class="dias_checkbox_input" type="checkbox" id="sabado" value="Sábado" name="dia">
+                     <label class="nombre_dia" for="sabado">Sábado</label>
+                 </div>
+                 <div class="dias_checkbox">
+                     <input class="dias_checkbox_input" type="checkbox" id="domingo" value="Domingo" name="dia">
+                     <label class="nombre_dia" for="domingo">Domingo</label>
+                 </div>
+             </div>
+             <!-- Hora -->
+             <label class="titulo_hora" for="horai">Inicio:</label>
+             <select class="select_hora" id="horai" required  name="horai">
+                 <option value="" disabled selected>Seleccione una hora</option>
+             </select>
+             
+             <label class="titulo_hora" for="horaf">Fin:</label>
+             <select class="select_hora" id="horaf"  name="horaf">
+                 <option value="" disabled selected>Seleccione una hora</option>
+             </select><br>
+             
+             <!-- Boton -->
+             <input id="boton" value="Crear" type="button" onclick='validar_campos(event)'>
+             <br>
+             <input id="boton_volver" value="Volver" type="button" onClick="javascript:window.location.href='index.html'">
+         </form>
+     </div>    
+ 
+     <script>
+             function modificar_evento(event){
+                 event.preventDefault();
+                 let infoformulario = new FormData(document.getElementById("formulario"));
+                 console.log(infoformulario)
+                 fetch('http://127.0.0.1:5000/modificar_evento',{
+                     method: 'POST', body:infoformulario
+                 })
+                 .then(response => response.json())
+                 .then(data => {
+                    if (data.exito){
+                        alert("dimeloo")
+                    }
+                    else if(!(data.existe)){
+                        alert("Evento no encontrado")
+                    }
+                    else{
+                        alert("error en fechas")
+                    }
+                 })
+                 .catch(error => console.log('Se produjo un error', error))
+             
+             }
 
-    <script>
+            function validar_campos(event){
+                event.preventDefault();
+                seguir = true
+                var formulario = document.getElementById('formulario')
+                var nombren = document.getElementById('nuevo_nombre').value.trim();
+                var nombrev = document.getElementById('nombre_viejo').value.trim();
+                var descripcion = document.getElementById('descripcion').value.trim();
+                var horai = document.getElementById('horai').value.trim();
+                var horaf = document.getElementById('horaf').value.trim();
+                var checks = formulario.querySelector('input[name="dia"]:checked');
+                
+                if(!(nombrev)){
+                    seguir = false
+                    alert("Nombre no puede estar vacío")
+                }
+                
+                if (horaf && !(horai)){
+                    seguir=false
+                }
+                if (horai && horaf){
+                    var inicio = horai.split(':');
+                    var fin = horaf.split(':');
+
+                    var hinicio = parseInt(inicio[0], 10)
+                    var hfin = parseInt(fin[0], 10)
+                    var minicio = parseInt(inicio[1], 10)
+                    var mfin = parseInt(fin[1], 10)
+
+                    if (hinicio > hfin || (hinicio === hfin && minicio >= mfin)){
+                        alert("Hora de finalizacion debe ser mayor a la inicial")
+                        seguir = false
+                    }
+                }
+                if(nombrev && !nombren && !descripcion && !horai && !checks){
+                    seguir = false
+                    alert("No agregó cambios")
+                    
+                }
+
+                if (seguir){
+                    modificar_evento(event)
+                }
+            }
+                
+            
             document.addEventListener("DOMContentLoaded", function() {
                 //Conseguir dia para el p
                 let dia = new Date();

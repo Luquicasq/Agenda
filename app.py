@@ -118,24 +118,6 @@ def crear_rutina():
     
     return jsonify({'mensaje': 'todo bien'})
 
-# @app.route('/verificar_tarea_duplicada/', methods=['GET'])
-# def verificar_tarea():
-#     nombre = request.args.get('nombre')
-#     tarea = Tareas.query.filter_by(nombre=nombre).first()
-#     if tarea:
-#         return jsonify({'existe': True})
-#     else:
-#         return jsonify({'existe': False})
-
-# @app.route('/verificar_rutina_duplicada/', methods=['GET'])
-# def verificar_rutina():
-#     nombre = request.args.get('nombre')
-#     tarea = Rutina.query.filter_by(nombre=nombre).first()
-#     if tarea:
-#         return jsonify({'existe': True})
-#     else:
-#         return jsonify({'existe': False})
-
 @app.route('/verificar_evento_duplicado')
 def verificar_evento_duplicado():
     nombre_crear = request.args.get('nombre')
@@ -173,29 +155,52 @@ def eliminar_de_agenda():
         db.session.commit()
         return jsonify({'eliminado': True})
     return jsonify({'eliminado': False})
-# @app.route('/modificar_rutina', methods=['POST'])
-# def modificar_rutina():
-#     rutina_id = request.form['rutina_id']
-#     nombre = request.form['nombre']
-#     descripcion = request.form['descripcion']
-#     dia = request.form['dia']
-#     hora = request.form['hora']
+
+@app.route('/modificar_evento', methods=['POST'])
+def modificar_evento():
+    nombre_viejo = request.form['nombre_viejo']
+    nombre_nuevo = request.form['nuevo_nombre']
+    descripcion = request.form['descripcion']
+    horainicio = request.form.get('horai', '')
+    horafin = request.form.get('horaf', '')
+    if horafin == '':
+        hora = horainicio
+    else:
+        hora = f"{horainicio}-{horafin}"
+
+    dias_form = request.form.getlist('dia')
+    dias = '-'.join(dias_form)
+
+    tarea = Tareas.query.filter_by(nombre=nombre_viejo).first()
+    rutina = Rutina.query.filter_by(nombre=nombre_viejo).first()
+    if tarea:
+        if len(dias_form) > 1:
+            return jsonify({'exito': False})
+        if nombre_nuevo:
+            tarea.nombre = nombre_nuevo
+        if descripcion:
+            tarea.descripcion = descripcion
+        if hora:
+            tarea.hora = hora
+        if dias:
+            tarea.dia = dias
+        db.session.commit()
     
-#     rutina = Rutina.query.get(rutina_id)
-#     if rutina:
-#         rutina.nombre = nombre
-#         rutina.descripcion = descripcion
-#         rutina.dia = dia
-#         rutina.hora = hora
-#         db.session.commit()
-#         return "Rutina modificada correctamente."
-#     else:
-#         return "No se encontró la rutina con ese ID."
-
-# @app.route('/formulario_modificar')
-# def formulario_modificar():
-#     return render_template('modificar.html')
-
+    elif rutina:
+        if len(dias_form) < 2:
+            return jsonify({'exito': False})
+        if nombre_nuevo:
+            rutina.nombre = nombre_nuevo
+        if descripcion:
+            rutina.descripcion = descripcion
+        if hora:
+            rutina.hora = hora
+        if dias:
+            rutina.dia = dias
+        db.session.commit()
+    else:
+        return jsonify({'existe': False})
+    return jsonify({'exito': True})
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -213,7 +213,6 @@
             function crear_rutina(event){
                 event.preventDefault();
                 let infoformulario = new FormData(document.getElementById("formulario"));
-
                 fetch('http://127.0.0.1:5000/crear_rutina/',{
                     method: 'POST', body:infoformulario
                 })
@@ -279,10 +278,27 @@
 
                 var nombre = document.getElementById('nombre').value.trim();
                 var descripcion = document.getElementById('descripcion').value.trim();
-                var hora = document.getElementById('horai').value.trim();
+                var horai = document.getElementById('horai').value.trim();
+                var horaf = document.getElementById('horaf').value.trim();
                 var checks = formulario.querySelector('input[name="dia"]:checked');
+                
+                if (horai && horaf){
+                    var seguir = true
+                    var inicio = horai.split(':');
+                    var fin = horaf.split(':');
 
-                if(!nombre || !descripcion || !hora || !checks){
+                    var hinicio = parseInt(inicio[0], 10)
+                    var hfin = parseInt(fin[0], 10)
+                    var minicio = parseInt(inicio[1], 10)
+                    var mfin = parseInt(fin[1], 10)
+
+                    if (hinicio > hfin || (hinicio === hfin && minicio >= mfin)){
+                        alert("Hora de finalizacion debe ser mayor a la inicial")
+                        seguir = false
+                    }
+                }
+
+                if(!nombre || !descripcion || !horai || !checks){
                     if (!nombre) {
                         alert('Ingrese nombre.');
                     }
@@ -292,12 +308,13 @@
                     else if (!checks) {
                         alert('Ingrese al menos un día');
                     }
-                    else if (!hora) {
+                    else if (!horai) {
                         alert('Ingrese hora de inicio');
                     }
                 }
                 else {
-                    verificar_evento_duplicado(event);
+                    if (seguir){
+                            verificar_evento_duplicado(event);}
                 }
             }
             
