@@ -137,6 +137,10 @@
             font-family: "Poppins", sans-serif;
             font-weight: 550;
         }
+
+        #boton_volver{
+            margin-top: 70%;
+        }
     </style>
 </head>
 <body>
@@ -200,10 +204,15 @@
             
             <!-- Boton -->
             <input id="boton" value="Crear" type="button" onclick='validar_campos(event)'>
+            <br>
+            <input id="boton_volver" value="Volver" type="button" onClick="javascript:window.location.href='index.html'">
         </form>
     </div>    
 
     <script>
+            function volver(){
+                
+            }
 
 
             function crear_rutina(event){
