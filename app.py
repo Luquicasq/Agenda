@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy #sqlalchemy --> conexion DB
 from flask_cors import CORS #CORS deja que se acceda al sv y DB
-from sqlalchemy import ForeignKey, Column, Integer, String, DateTime #Tipos de dato
+from sqlalchemy import ForeignKey, Column, Integer, String, DateTime, delete #Tipos de dato
 from sqlalchemy.orm import relationship #FKEY
 
 app = Flask(__name__) #Se crea app de FLASK
@@ -136,28 +136,51 @@ def verificar_rutina():
     else:
         return jsonify({'existe': False})
 
-@app.route('/modificar_rutina', methods=['POST'])
-def modificar_rutina():
-    rutina_id = request.form['rutina_id']
-    nombre = request.form['nombre']
-    descripcion = request.form['descripcion']
-    dia = request.form['dia']
-    hora = request.form['hora']
-    
-    rutina = Rutina.query.get(rutina_id)
-    if rutina:
-        rutina.nombre = nombre
-        rutina.descripcion = descripcion
-        rutina.dia = dia
-        rutina.hora = hora
-        db.session.commit()
-        return "Rutina modificada correctamente."
-    else:
-        return "No se encontró la rutina con ese ID."
 
-@app.route('/formulario_modificar')
-def formulario_modificar():
-    return render_template('modificar.html')
+@app.route('/eliminar_de_agenda')
+def eliminar_de_agenda():
+    #Borrar elimina el registro correspondiente en Agenda y en Tareas
+    nombre_borrar = request.args.get('nombre')
+    tarea = Tareas.query.filter_by(nombre=nombre_borrar).first()
+    rutina = Rutina.query.filter_by(nombre=nombre_borrar).first()
+
+    if tarea:
+        db.session.query(Agenda).filter_by(fkt=tarea.id).delete()
+        db.session.commit()
+
+        db.session.delete(tarea)
+        db.session.commit()
+        return jsonify({'eliminado': True})
+    if rutina:
+        db.session.query(Agenda).filter_by(fkr=rutina.id).delete()
+        db.session.commit()
+        
+        db.session.delete(rutina)
+        db.session.commit()
+        return jsonify({'eliminado': True})
+    return jsonify({'eliminado': False})
+# @app.route('/modificar_rutina', methods=['POST'])
+# def modificar_rutina():
+#     rutina_id = request.form['rutina_id']
+#     nombre = request.form['nombre']
+#     descripcion = request.form['descripcion']
+#     dia = request.form['dia']
+#     hora = request.form['hora']
+    
+#     rutina = Rutina.query.get(rutina_id)
+#     if rutina:
+#         rutina.nombre = nombre
+#         rutina.descripcion = descripcion
+#         rutina.dia = dia
+#         rutina.hora = hora
+#         db.session.commit()
+#         return "Rutina modificada correctamente."
+#     else:
+#         return "No se encontró la rutina con ese ID."
+
+# @app.route('/formulario_modificar')
+# def formulario_modificar():
+#     return render_template('modificar.html')
 
 
 if __name__ == '__main__':

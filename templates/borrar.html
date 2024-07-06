@@ -134,6 +134,10 @@
             font-weight: 550;
         }
 
+        #boton_volver{
+            margin-top: 15%;
+        }
+
     </style>
 </head>
 <body>
@@ -146,14 +150,54 @@
         <form class="form1" action="" method="post">
             <!-- Nombre -->
             <label class="titulos_labels">Nombre:</label>
-            <input id="nombre_viejo" class="caja_input" required><br>
+            <input id="nombre" class="caja_input" required><br>
             
             <!-- Boton -->
-            <input id="boton" type="submit" value="Borrar">
+            <input id="boton" type="submit" value="Borrar" onclick="verificar_existencia()"> <br>
+            <input id="boton_volver" value="Volver" type="button" onClick="javascript:window.location.href='index.html'">
         </form>
     </div>    
 
     <script>
+            function eliminar_tarea(nombre_tarea){
+                fetch("http://127.0.0.1:5000/eliminar_de_agenda?nombre=" + nombre_tarea)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.eliminado){
+                        alert("SE BORRO")
+                    }
+                })
+                .catch(error => {console.log("Error en fetch" + error)})
+            }
+
+
+            function verificar_existencia(){
+                event.preventDefault();
+                var nombre_tarea = document.getElementById('nombre').value.trim();
+                var tarea = false
+                fetch("http://127.0.0.1:5000/verificar_tarea_duplicada?nombre=" + nombre_tarea)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.existe) {
+                        tarea = true}})
+                .catch(error => {console.log('Error en fetch ' + error)})
+            
+            
+                fetch("http://127.0.0.1:5000/verificar_rutina_duplicada?nombre=" + nombre_tarea)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.existe) {
+                        tarea = true}
+                    if(tarea === false){
+                        alert('No se encontró ese evento')
+                    }else {
+                        eliminar_tarea(nombre_tarea)
+                    }})
+                .catch(error => {console.log('Error en fetch ' + error)})
+            
+                
+            }
+            
             document.addEventListener("DOMContentLoaded", function() {
                 //Conseguir dia para el p
                 let dia = new Date();
@@ -162,35 +206,7 @@
                 let fecha = document.getElementsByTagName("p")[0];
                 fecha.textContent = fechaFormateada;
 
-                
 
-
-                //Generar las horas de las cajas del form
-                function generar_horas(elemento_select) {
-                    var hora = 8;
-                    var minutos = 0;
-
-                    while (hora <= 23) {
-                        var select = elemento_select
-                        var horaStr = hora.toString().padStart(2, '0');
-                        var minutosStr = minutos.toString().padStart(2, '0');
-
-                        var horaCompleta = horaStr + ':' + minutosStr;
-                        var opcion = document.createElement("option");
-                        opcion.value = horaCompleta;
-                        opcion.textContent = horaCompleta;
-
-                        select.appendChild(opcion);
-
-                        minutos += 30;
-                        if (minutos >= 60) {
-                            minutos = 0;
-                            hora++;
-                        }
-                    }
-                }
-                generar_horas(document.getElementById("horai"));
-                generar_horas(document.getElementById("horaf"));
             });
     </script>
     
