@@ -185,7 +185,14 @@
                                     columnas.forEach(d => {
                                         const indexColumna = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'].indexOf(d);
                                         const celda = row.cells[indexColumna + 1];
-                                        celda.textContent += tareas.join(', ') + '\n';
+
+                                        //Verificar si la celda tiene evento
+                                        if (celda.textContent.trim() !== ''){ 
+                                        celda.textContent += ' | ' + tareas.join('|');
+                                            }
+                                        else{
+                                            celda.textContent = tareas.join('|')
+                                        }
                                     });
                                 }
                             } 
@@ -200,7 +207,14 @@
                                         const indexColumna = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'].indexOf(d);
                                         if (indexColumna !== -1) {
                                             const celda = row.cells[indexColumna + 1];
-                                            celda.textContent += tareas.join(', ') + '\n';
+                                            
+                                            //Verificar si la celda tiene evento
+                                            if (celda.textContent.trim() !== ''){ 
+                                            celda.textContent += ' | ' + tareas.join(' | ');
+                                                }
+                                            else{
+                                                celda.textContent = tareas.join(' | ')
+                                            }
                                         }
                                     });
                                 }
