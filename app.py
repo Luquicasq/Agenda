@@ -174,8 +174,8 @@ def modificar_evento():
     tarea = Tareas.query.filter_by(nombre=nombre_viejo).first()
     rutina = Rutina.query.filter_by(nombre=nombre_viejo).first()
     if tarea:
-        if len(dias_form) > 1:
-            return jsonify({'exito': False})
+        if len(dias_form) > 1 and len(dias_form) != 0:
+            return jsonify({'exitotarea': 'error'})
         if nombre_nuevo:
             tarea.nombre = nombre_nuevo
         if descripcion:
@@ -185,10 +185,11 @@ def modificar_evento():
         if dias:
             tarea.dia = dias
         db.session.commit()
+        return jsonify({'exitotarea':True})
     
     elif rutina:
-        if len(dias_form) < 2:
-            return jsonify({'exito': False})
+        if len(dias_form) < 2 and len(dias_form) != 0:
+            return jsonify({'exitorutina': 'error'})
         if nombre_nuevo:
             rutina.nombre = nombre_nuevo
         if descripcion:
@@ -198,9 +199,9 @@ def modificar_evento():
         if dias:
             rutina.dia = dias
         db.session.commit()
+        return jsonify({'exitorutina':True})
     else:
-        return jsonify({'existe': False})
-    return jsonify({'exito': True})
+        return jsonify({'existe': 'no'})
 
 @app.route('/borrar_todo')
 def borrar_todo():

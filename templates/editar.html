@@ -19,7 +19,7 @@
                 
         }
 
-        p {
+        #p_fecha {
             font-family: "IBM Plex Sans";
             min-height: 4%;
             text-align: right;
@@ -140,7 +140,7 @@
     </style>
 </head>
 <body>
-    <p></p>
+    <p id="p_fecha"></p>
     <h1>Agenda</h1>
     <div id="div_titulo">
         <h2>Editar</h2>
@@ -203,14 +203,44 @@
              </select><br>
              
              <!-- Boton -->
-             <input id="boton" value="Crear" type="button" onclick='validar_campos(event)'>
+             <input id="boton" value="Editar" type="button" onclick='validar_campos(event)'>
              <br>
+             <div id="div_aviso"></div><br>
              <input id="boton_volver" value="Volver" type="button" onClick="javascript:window.location.href='index.html'">
          </form>
      </div>    
  
      <script>
-             function modificar_evento(event){
+            function avisar(data, nombrev){
+                var continuar = true
+                if(data.exitotarea === 'error'){
+                    alert("Una tarea solo puede hacerse un día")
+                    continuar = false
+                }
+                else if(data.exitorutina === 'error'){
+                    alert("Una rutina no debe hacerse en un solo día")
+                    continuar = false
+                }
+                else if(data.existe === 'no'){
+                    alert("No se hallaron tareas ni rutinas con ese nombre")
+                    continuar = false
+                }
+                
+                if (continuar){
+                    let aviso = div_formulario.querySelector('p')
+                    let div_p = document.getElementById("div_aviso")
+                    let texto = "Cambios aplicados en " + nombrev
+                    
+                    if(aviso){
+                        aviso.textContent = texto}
+                    else{
+                    aviso = document.createElement('p')
+                    aviso.textContent = texto
+                    div_p.appendChild(aviso)
+                    }
+                }}
+
+            function modificar_evento(event, nombrev){
                  event.preventDefault();
                  let infoformulario = new FormData(document.getElementById("formulario"));
                  console.log(infoformulario)
@@ -218,17 +248,7 @@
                      method: 'POST', body:infoformulario
                  })
                  .then(response => response.json())
-                 .then(data => {
-                    if (data.exito){
-                        alert("dimeloo")
-                    }
-                    else if(!(data.existe)){
-                        alert("Evento no encontrado")
-                    }
-                    else{
-                        alert("error en fechas")
-                    }
-                 })
+                 .then(data => {avisar(data, nombrev)})
                  .catch(error => console.log('Se produjo un error', error))
              
              }
@@ -273,7 +293,7 @@
                 }
 
                 if (seguir){
-                    modificar_evento(event)
+                    modificar_evento(event, nombrev)
                 }
             }
                 
