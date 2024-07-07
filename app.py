@@ -120,14 +120,24 @@ def crear_rutina():
 @app.route('/verificar_evento_duplicado')
 def verificar_evento_duplicado():
     nombre_crear = request.args.get('nombre')
-    print(nombre_crear)
     tarea = Tareas.query.filter_by(nombre=nombre_crear).first()
     rutina = Rutina.query.filter_by(nombre=nombre_crear).first()
 
-    if tarea:
+    tareamin = Tareas.query.filter(db.func.lower(Tareas.nombre) == nombre_crear.lower()).first()
+    rutinamin = Rutina.query.filter(db.func.lower(Rutina.nombre) == nombre_crear.lower()).first()
+
+    if tarea or tareamin:
+        if tareamin:
+
+            return jsonify({'duplicado':True}) 
         return jsonify({'existetarea': True})
-    if rutina:
-        return jsonify({'existerutina': True})
+    
+    if rutina or rutinamin:
+        if rutinamin:
+
+            return jsonify({'duplicado':True})
+        return jsonify({'existetarea': True})
+        
     return jsonify({'existe': False})
 
 

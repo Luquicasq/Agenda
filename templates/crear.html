@@ -271,13 +271,20 @@
 
             function verificar_evento_duplicado(event, nombre){
                 event.preventDefault();
+                var seguir = true
                 var nombre_tarea = document.getElementById('nombre').value.trim();
-
-                fetch('http://127.0.0.1:5000/verificar_evento_duplicado?nombre=' + nombre_tarea)
+                var nombre_minus = nombre_tarea.toLowerCase()
+                var url = 'http://127.0.0.1:5000/verificar_evento_duplicado?nombre=' + nombre_tarea
+                
+                console.log(url)
+                fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     if (data.existetarea || data.existerutina) {
                         alert("Ese evento ya existe");
+                    }
+                    else if (data.duplicado){
+                        alert("Ese evento ya existe")
                     }
                     else {determinar_fetch(event, nombre)
                     }
