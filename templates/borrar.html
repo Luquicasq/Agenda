@@ -19,7 +19,7 @@
                 
         }
 
-        p {
+        #p_fecha {
             font-family: "IBM Plex Sans";
             min-height: 4%;
             text-align: right;
@@ -152,30 +152,56 @@
     </style>
 </head>
 <body>
-    <p></p>
+    <p id="p_fecha"></p>
     <h1>Agenda</h1>
     <div id="div_titulo">
         <h2>Borrar</h2>
     </div>
     <div id="div_formulario">
-        <form class="form1" action="" method="post">
+        <form class="form1" action="" method="post" id="formulario">
             <!-- Nombre -->
             <label class="titulos_labels">Nombre:</label>
             <input id="nombre" class="caja_input" required><br>
-            
+
+
             <!-- Boton -->
             <input id="boton" type="submit" value="Borrar" onclick="verificar_existencia()"> <br>
             <input id="boton_volver" value="Volver" type="button" onclick="javascript:window.location.href='index.html'"><br>
-            <input id="borrar_todo" value="Borrar todo" type="button" onclick='borrar_todos()'>
+            <div id="div_texto"></div>
+            <input id="borrar_todo" value="Borrar todo" type="button" onclick='borrar_todos()'><br>
         </form>
     </div>    
 
     <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                //Conseguir dia para el p
+                let dia = new Date();
+                let fechaFormateada = dia.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
+
+                let fecha = document.getElementsByTagName("p")[0];
+                fecha.textContent = fechaFormateada;
+                });
+                
             function borrar_todos(){
                 if(confirm("Se va a borrar todo. Continuar?")){
                 fetch("http://127.0.0.1:5000/borrar_todo")
                 .then(response => response.json())
-                .then(data => console.log(data))
+                .then(data => {
+                        let div_formulario = document.getElementById("div_texto")
+                        let texto = "Se ha borrado todo correctamente." 
+                        let aviso = div_formulario.querySelector('p')
+
+                        if (aviso){
+                            aviso.textContent = texto
+                        }
+                        else{
+                            aviso = document.createElement('p')
+                            aviso.textContent = texto
+                            div_formulario.appendChild(aviso)}
+                        
+                    }
+                )
+                
                 .catch(error => console.log('error en fetch' + error))
                 }
             }
@@ -185,7 +211,18 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.eliminado){
-                        alert("SE BORRO")
+                        let div_formulario = document.getElementById("div_texto")
+                        let texto = "Se ha borrado correctamente: " + nombre_tarea +"."
+                        let aviso = div_formulario.querySelector('p')
+
+                        if (aviso){
+                            aviso.textContent = texto
+                        }
+                        else{
+                            aviso = document.createElement('p')
+                            aviso.textContent = texto
+                            div_formulario.appendChild(aviso)}
+                        
                     }
                 })
                 .catch(error => {console.log("Error en fetch" + error)})
@@ -195,7 +232,7 @@
             function verificar_existencia(){
                 event.preventDefault();
                 var nombre_tarea = document.getElementById('nombre').value.trim();
-                var seguir = true
+                var seguir = true   
                 if(!(nombre_tarea)){
                     seguir = false
                     alert("Nombre no puede estar vacío")
@@ -212,16 +249,6 @@
                     }})}
             }
             
-            document.addEventListener("DOMContentLoaded", function() {
-                //Conseguir dia para el p
-                let dia = new Date();
-                let fechaFormateada = dia.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '.');
-
-                let fecha = document.getElementsByTagName("p")[0];
-                fecha.textContent = fechaFormateada;
-
-
-            });
     </script>
     
 </body>
