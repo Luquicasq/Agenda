@@ -195,6 +195,7 @@
             function verificar_existencia(){
                 event.preventDefault();
                 var nombre_tarea = document.getElementById('nombre').value.trim();
+                var seguir = true
                 if(!(nombre_tarea)){
                     seguir = false
                     alert("Nombre no puede estar vacío")
