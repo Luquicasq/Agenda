@@ -212,38 +212,37 @@
  
      <script>
             function avisar(data, nombrev){
-                var continuar = true
+                var continuar = true;
                 if(data.exitotarea === 'error'){
-                    alert("Una tarea solo puede hacerse un día")
-                    continuar = false
+                    alert("Una tarea solo puede hacerse un día");
+                    continuar = false;
                 }
                 else if(data.exitorutina === 'error'){
-                    alert("Una rutina no debe hacerse en un solo día")
-                    continuar = false
+                    alert("Una rutina no debe hacerse en un solo día");
+                    continuar = false;
                 }
                 else if(data.existe === 'no'){
-                    alert("No se hallaron tareas ni rutinas con ese nombre")
-                    continuar = false
+                    alert("No se hallaron tareas ni rutinas con ese nombre");
+                    continuar = false;
                 }
                 
                 if (continuar){
-                    let aviso = div_formulario.querySelector('p')
-                    let div_p = document.getElementById("div_aviso")
-                    let texto = "Cambios aplicados en " + nombrev
+                    let aviso = div_formulario.querySelector('p');
+                    let div_p = document.getElementById("div_aviso");
+                    let texto = "Cambios aplicados en " + nombrev;
                     
                     if(aviso){
                         aviso.textContent = texto}
                     else{
-                    aviso = document.createElement('p')
-                    aviso.textContent = texto
-                    div_p.appendChild(aviso)
+                    aviso = document.createElement('p');
+                    aviso.textContent = texto;
+                    div_p.appendChild(aviso);
                     }
                 }}
 
             function modificar_evento(event, nombrev){
                  event.preventDefault();
                  let infoformulario = new FormData(document.getElementById("formulario"));
-                 console.log(infoformulario)
                  fetch('http://127.0.0.1:5000/modificar_evento',{
                      method: 'POST', body:infoformulario
                  })
@@ -255,8 +254,8 @@
 
             function validar_campos(event){
                 event.preventDefault();
-                seguir = true
-                var formulario = document.getElementById('formulario')
+                seguir = true;
+                var formulario = document.getElementById('formulario');
                 var nombren = document.getElementById('nuevo_nombre').value.trim();
                 var nombrev = document.getElementById('nombre_viejo').value.trim();
                 var descripcion = document.getElementById('descripcion').value.trim();
@@ -266,50 +265,50 @@
                 
 
                 if (nombrev.length > 100 || nombren.length > 100){
-                    seguir = false
-                    alert("Maxima longitud de nombre permitida: 100")
+                    seguir = false;
+                    alert("Maxima longitud de nombre permitida: 100");
                 }
 
                 if (descripcion.length > 200){
-                    seguir = false
-                    alert("Maxima longitud de descripción permitida: 200")
+                    seguir = false;
+                    alert("Maxima longitud de descripción permitida: 200");
                 }
 
 
-                if (nombren.toLowerCase === nombrev.toLowerCase && nombrev !== ''){
-                    seguir = false
-                    alert("Los nombres no pueden ser iguales")
+                if ((nombren.toLowerCase() === nombrev.toLowerCase()) && (nombrev !== '')){
+                    seguir = false;
+                    alert("Los nombres no pueden ser iguales");
                 }
                 if(!(nombrev)){
-                    seguir = false
-                    alert("Nombre no puede estar vacío")
+                    seguir = false;
+                    alert("Nombre no puede estar vacío");
                 }
                 
                 if (horaf && !(horai)){
-                    seguir=false
+                    seguir=false;
                 }
                 if (horai && horaf){
                     var inicio = horai.split(':');
                     var fin = horaf.split(':');
 
-                    var hinicio = parseInt(inicio[0], 10)
-                    var hfin = parseInt(fin[0], 10)
-                    var minicio = parseInt(inicio[1], 10)
-                    var mfin = parseInt(fin[1], 10)
+                    var hinicio = parseInt(inicio[0], 10);
+                    var hfin = parseInt(fin[0], 10);
+                    var minicio = parseInt(inicio[1], 10);
+                    var mfin = parseInt(fin[1], 10);
 
                     if (hinicio > hfin || (hinicio === hfin && minicio >= mfin)){
-                        alert("Hora de finalizacion debe ser mayor a la inicial")
-                        seguir = false
+                        alert("Hora de finalizacion debe ser mayor a la inicial");
+                        seguir = false;
                     }
                 }
                 if(nombrev && !nombren && !descripcion && !horai && !checks){
-                    seguir = false
-                    alert("No agregó cambios")
+                    seguir = false;
+                    alert("No agregó cambios");
                     
                 }
 
                 if (seguir){
-                    modificar_evento(event, nombrev)
+                    modificar_evento(event, nombrev);
                 }
             }
                 
@@ -331,7 +330,7 @@
                     var minutos = 0;
 
                     while (hora <= 23) {
-                        var select = elemento_select
+                        var select = elemento_select;
                         var horaStr = hora.toString().padStart(2, '0');
                         var minutosStr = minutos.toString().padStart(2, '0');
 

@@ -187,17 +187,18 @@
                 fetch("http://127.0.0.1:5000/borrar_todo")
                 .then(response => response.json())
                 .then(data => {
-                        let div_formulario = document.getElementById("div_texto")
-                        let texto = "Se ha borrado todo correctamente." 
-                        let aviso = div_formulario.querySelector('p')
+                        let div_formulario = document.getElementById("div_texto");
+                        let texto = "Se ha borrado todo correctamente." ;
+                        let aviso = div_formulario.querySelector('p');
 
                         if (aviso){
-                            aviso.textContent = texto
+                            aviso.textContent = texto;
                         }
                         else{
-                            aviso = document.createElement('p')
-                            aviso.textContent = texto
-                            div_formulario.appendChild(aviso)}
+                            aviso = document.createElement('p');
+                            aviso.textContent = texto;
+                            div_formulario.appendChild(aviso);
+                        }
                         
                     }
                 )
@@ -211,16 +212,16 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.eliminado){
-                        let div_formulario = document.getElementById("div_texto")
-                        let texto = "Se ha borrado correctamente: " + nombre_tarea +"."
-                        let aviso = div_formulario.querySelector('p')
+                        let div_formulario = document.getElementById("div_texto");
+                        let texto = "Se ha borrado correctamente: " + nombre_tarea +".";
+                        let aviso = div_formulario.querySelector('p');
 
                         if (aviso){
-                            aviso.textContent = texto
+                            aviso.textContent = texto;
                         }
                         else{
-                            aviso = document.createElement('p')
-                            aviso.textContent = texto
+                            aviso = document.createElement('p');
+                            aviso.textContent = texto;
                             div_formulario.appendChild(aviso)}
                         
                     }
@@ -232,10 +233,10 @@
             function verificar_existencia(){
                 event.preventDefault();
                 var nombre_tarea = document.getElementById('nombre').value.trim();
-                var seguir = true   
+                var seguir = true;
                 if(!(nombre_tarea)){
-                    seguir = false
-                    alert("Nombre no puede estar vacío")
+                    seguir = false;
+                    alert("Nombre no puede estar vacío");
                 }
 
                 if (seguir){
@@ -243,9 +244,9 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.existetarea || data.existerutina) {
-                        eliminar_tarea(nombre_tarea)}
+                        eliminar_tarea(nombre_tarea);}
                     else{
-                        alert("No se encontró ese evento")
+                        alert("No se encontró ese evento");
                     }})}
             }
             

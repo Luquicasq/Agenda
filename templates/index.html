@@ -156,8 +156,6 @@
             fetch('http://127.0.0.1:5000/agenda')
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-
                     //Iterar sobre cada dia/s de la semana. {dia/s{hora: nombre}} 
                     Object.keys(data).forEach(dia => {
                         //Se almacena la tarea/rutina hh:mm:nombre
@@ -191,7 +189,7 @@
                                         celda.textContent += ' | ' + tareas.join('|');
                                             }
                                         else{
-                                            celda.textContent = tareas.join('|')
+                                            celda.textContent = tareas.join('|');
                                         }
                                     });
                                 }
@@ -213,7 +211,7 @@
                                             celda.textContent += ' | ' + tareas.join(' | ');
                                                 }
                                             else{
-                                                celda.textContent = tareas.join(' | ')
+                                                celda.textContent = tareas.join(' | ');
                                             }
                                         }
                                     });
@@ -222,7 +220,7 @@
                         });
                     });
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => console.log('Error en fetch: ', error));
         });
     </script>
 </body>

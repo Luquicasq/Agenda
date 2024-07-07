@@ -212,16 +212,16 @@
 
     <script>
             function avisar(event, nombre){
-                let aviso = div_formulario.querySelector('p')
-                let div_p = document.getElementById("div_aviso")
-                let texto = "Se creó " + nombre
+                let aviso = div_formulario.querySelector('p');
+                let div_p = document.getElementById("div_aviso");
+                let texto = "Se creó " + nombre;
                 
                 if(aviso){
                     aviso.textContent = texto}
                 else{
-                aviso = document.createElement('p')
-                aviso.textContent = texto
-                div_p.appendChild(aviso)
+                aviso = document.createElement('p');
+                aviso.textContent = texto;
+                div_p.appendChild(aviso);
                 }
             }
             
@@ -271,12 +271,11 @@
 
             function verificar_evento_duplicado(event, nombre){
                 event.preventDefault();
-                var seguir = true
+                var seguir = true;
                 var nombre_tarea = document.getElementById('nombre').value.trim();
-                var nombre_minus = nombre_tarea.toLowerCase()
-                var url = 'http://127.0.0.1:5000/verificar_evento_duplicado?nombre=' + nombre_tarea
-                
-                console.log(url)
+                var nombre_minus = nombre_tarea.toLowerCase();
+                var url = 'http://127.0.0.1:5000/verificar_caso_duplicado_crear?nombre=' + nombre_tarea;
+
                 fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -284,9 +283,9 @@
                         alert("Ese evento ya existe");
                     }
                     else if (data.duplicado){
-                        alert("Ese evento ya existe")
+                        alert("Ese evento ya existe");
                     }
-                    else {determinar_fetch(event, nombre)
+                    else {determinar_fetch(event, nombre);
                     }
                 })
                 .catch(error => {console.log('Error en fetch' + error)})
@@ -296,8 +295,8 @@
 
             function validar_campos(event){
                 event.preventDefault();
-                var formulario = document.getElementById('formulario')
-                var seguir = true
+                var formulario = document.getElementById('formulario');
+                var seguir = true;
                 var nombre = document.getElementById('nombre').value.trim();
                 var descripcion = document.getElementById('descripcion').value.trim();
                 var horai = document.getElementById('horai').value.trim();
@@ -305,27 +304,27 @@
                 var checks = formulario.querySelector('input[name="dia"]:checked');
                 
                 if (nombre.length > 100){
-                    seguir = false
-                    alert("Maxima longitud de nombre permitida: 100")
+                    seguir = false;
+                    alert("Maxima longitud de nombre permitida: 100");
                 }
 
                 if (descripcion.length > 200){
-                    seguir = false
-                    alert("Maxima longitud de descripción permitida: 200")
+                    seguir = false;
+                    alert("Maxima longitud de descripción permitida: 200");
                 }
 
                 if (horai && horaf){
                     var inicio = horai.split(':');
                     var fin = horaf.split(':');
 
-                    var hinicio = parseInt(inicio[0], 10)
-                    var hfin = parseInt(fin[0], 10)
-                    var minicio = parseInt(inicio[1], 10)
-                    var mfin = parseInt(fin[1], 10)
+                    var hinicio = parseInt(inicio[0], 10);
+                    var hfin = parseInt(fin[0], 10);
+                    var minicio = parseInt(inicio[1], 10);
+                    var mfin = parseInt(fin[1], 10);
 
                     if (hinicio > hfin || (hinicio === hfin && minicio >= mfin)){
-                        alert("Hora de finalizacion debe ser mayor a la inicial")
-                        seguir = false
+                        alert("Hora de finalizacion debe ser mayor a la inicial");
+                        seguir = false;
                     }
                 }
 
@@ -366,7 +365,7 @@
                     var minutos = 0;
 
                     while (hora <= 23) {
-                        var select = elemento_select
+                        var select = elemento_select;
                         var horaStr = hora.toString().padStart(2, '0');
                         var minutosStr = minutos.toString().padStart(2, '0');
 
