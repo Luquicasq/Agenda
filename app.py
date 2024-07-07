@@ -28,7 +28,6 @@ class Rutina(db.Model): #Representa una table de la DB
 class Agenda(db.Model): 
     __tablename__ = 'agenda'
     id = Column(Integer, primary_key=True)
-    pendiente = db.Column(db.Boolean)
     fkt = db.Column(Integer, ForeignKey("tareas.id"))
     fkr = db.Column(Integer, ForeignKey("rutina.id"))
     tarea = relationship('Tareas', foreign_keys=[fkt])
@@ -36,7 +35,7 @@ class Agenda(db.Model):
 
 @app.route('/agenda/', methods=['GET'])
 def conseguir_agenda():
-    pendientes = Agenda.query.filter_by(pendiente=True).all()
+    pendientes = Agenda.query.all()
     pendientes_dic = {}
 
     for pendiente in pendientes:
@@ -84,7 +83,7 @@ def crear_tarea():
         tarea_id = tarea.id
         estado = True
 
-        agenda = Agenda(fkt=tarea_id, pendiente=estado)
+        agenda = Agenda(fkt=tarea_id)
         db.session.add(agenda)
         db.session.commit()
     
@@ -112,7 +111,7 @@ def crear_rutina():
         rutina_id = rutina.id
         estado = True
 
-        agenda = Agenda(fkr=rutina_id, pendiente=estado)
+        agenda = Agenda(fkr=rutina_id)
         db.session.add(agenda)
         db.session.commit()
     
