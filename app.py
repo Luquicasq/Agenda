@@ -202,5 +202,14 @@ def modificar_evento():
         return jsonify({'existe': False})
     return jsonify({'exito': True})
 
+@app.route('/borrar_todo')
+def borrar_todo():
+    db.session.query(Agenda).delete()
+    db.session.query(Rutina).delete()
+    db.session.query(Tareas).delete()
+    db.session.commit()
+    return jsonify({'exito': True})
+
+
 if __name__ == '__main__':
     app.run(debug=True)

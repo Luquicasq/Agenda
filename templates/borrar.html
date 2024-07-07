@@ -135,7 +135,18 @@
         }
 
         #boton_volver{
-            margin-top: 15%;
+            margin-top: 5%;
+            cursor: pointer;
+        }
+
+        #borrar_todo {
+            background-color: #DB3A34;
+            font-size: 120%;
+            margin-top: 70%;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 5%
         }
 
     </style>
@@ -154,11 +165,21 @@
             
             <!-- Boton -->
             <input id="boton" type="submit" value="Borrar" onclick="verificar_existencia()"> <br>
-            <input id="boton_volver" value="Volver" type="button" onClick="javascript:window.location.href='index.html'">
+            <input id="boton_volver" value="Volver" type="button" onclick="javascript:window.location.href='index.html'"><br>
+            <input id="borrar_todo" value="Borrar todo" type="button" onclick='borrar_todos()'>
         </form>
     </div>    
 
     <script>
+            function borrar_todos(){
+                if(confirm("Se va a borrar todo. Continuar?")){
+                fetch("http://127.0.0.1:5000/borrar_todo")
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.log('error en fetch' + error))
+                }
+            }
+            
             function eliminar_tarea(nombre_tarea){
                 fetch("http://127.0.0.1:5000/eliminar_de_agenda?nombre=" + nombre_tarea)
                 .then(response => response.json())
@@ -174,7 +195,12 @@
             function verificar_existencia(){
                 event.preventDefault();
                 var nombre_tarea = document.getElementById('nombre').value.trim();
-                var tarea = false
+                if(!(nombre_tarea)){
+                    seguir = false
+                    alert("Nombre no puede estar vacío")
+                }
+
+                if (seguir){
                 fetch("http://127.0.0.1:5000/verificar_evento_duplicado?nombre=" + nombre_tarea)
                 .then(response => response.json())
                 .then(data => {
@@ -182,7 +208,7 @@
                         eliminar_tarea(nombre_tarea)}
                     else{
                         alert("No se encontró ese evento")
-                    }})
+                    }})}
             }
             
             document.addEventListener("DOMContentLoaded", function() {
