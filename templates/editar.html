@@ -264,6 +264,10 @@
                 var horaf = document.getElementById('horaf').value.trim();
                 var checks = formulario.querySelector('input[name="dia"]:checked');
                 
+                if (nombren === nombrev && nombrev !== ''){
+                    seguir = false
+                    alert("Los nombres no pueden ser iguales")
+                }
                 if(!(nombrev)){
                     seguir = false
                     alert("Nombre no puede estar vacío")
