@@ -19,7 +19,7 @@
                 
         }
 
-        p {
+        #p_fecha {
             font-family: "IBM Plex Sans";
             min-height: 4%;
             text-align: right;
@@ -144,7 +144,7 @@
     </style>
 </head>
 <body>
-    <p></p>
+    <p id="p_fecha"></p>
     <h1>Agenda</h1>
     <div id="div_titulo">
         <h2>Crear</h2>
@@ -205,24 +205,39 @@
             <!-- Boton -->
             <input id="boton" value="Crear" type="button" onclick='validar_campos(event)'>
             <br>
+            <div id="div_aviso"></div>
             <input id="boton_volver" value="Volver" type="button" onClick="javascript:window.location.href='index.html'">
         </form>
     </div>    
 
     <script>
-            function crear_rutina(event){
+            function avisar(event, nombre){
+                let aviso = div_formulario.querySelector('p')
+                let div_p = document.getElementById("div_aviso")
+                let texto = "Se creó " + nombre
+                
+                if(aviso){
+                    aviso.textContent = texto}
+                else{
+                aviso = document.createElement('p')
+                aviso.textContent = texto
+                div_p.appendChild(aviso)
+                }
+            }
+            
+            function crear_rutina(event, nombre){
                 event.preventDefault();
                 let infoformulario = new FormData(document.getElementById("formulario"));
                 fetch('http://127.0.0.1:5000/crear_rutina/',{
                     method: 'POST', body:infoformulario
                 })
                 .then(response => response.json())
-                .then(data => {console.log(data)})
+                .then(data => {avisar(event, nombre)})
                 .catch(error => console.log('Se produjo un error', error))
             
             }
 
-            function crear_tarea(event){
+            function crear_tarea(event, nombre){
                 event.preventDefault();
                 let infoformulario = new FormData(document.getElementById("formulario"));
 
@@ -230,12 +245,12 @@
                     method: 'POST', body:infoformulario
                 })
                 .then(response => response.json())
-                .then(data => {console.log(data)})
+                .then(data => {avisar(event, nombre)})
                 .catch(error => console.log('Se produjo un error', error))
             
             }
 
-            function determinar_fetch(event){
+            function determinar_fetch(event, nombre){
                 event.preventDefault;
                 var cajitas = document.getElementsByName('dia');
                 var dias_cajitas = [];
@@ -247,14 +262,14 @@
                 }
 
                 if (dias_cajitas.length === 1){
-                    crear_tarea(event);
+                    crear_tarea(event, nombre);
                 } 
                 else {
-                    crear_rutina(event);
+                    crear_rutina(event, nombre);
                 }
             }
 
-            function verificar_evento_duplicado(event){
+            function verificar_evento_duplicado(event, nombre){
                 event.preventDefault();
                 var nombre_tarea = document.getElementById('nombre').value.trim();
 
@@ -264,7 +279,7 @@
                     if (data.existetarea || data.existerutina) {
                         alert("Ese evento ya existe");
                     }
-                    else {determinar_fetch(event)
+                    else {determinar_fetch(event, nombre)
                     }
                 })
                 .catch(error => {console.log('Error en fetch' + error)})
@@ -275,7 +290,7 @@
             function validar_campos(event){
                 event.preventDefault();
                 var formulario = document.getElementById('formulario')
-
+                var seguir = true
                 var nombre = document.getElementById('nombre').value.trim();
                 var descripcion = document.getElementById('descripcion').value.trim();
                 var horai = document.getElementById('horai').value.trim();
@@ -283,7 +298,6 @@
                 var checks = formulario.querySelector('input[name="dia"]:checked');
                 
                 if (horai && horaf){
-                    var seguir = true
                     var inicio = horai.split(':');
                     var fin = horaf.split(':');
 
@@ -314,7 +328,7 @@
                 }
                 else {
                     if (seguir){
-                            verificar_evento_duplicado(event);}
+                            verificar_evento_duplicado(event, nombre);}
                 }
             }
             
