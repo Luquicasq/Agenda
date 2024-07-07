@@ -264,6 +264,17 @@
                 var horaf = document.getElementById('horaf').value.trim();
                 var checks = formulario.querySelector('input[name="dia"]:checked');
                 
+                if (nombrev.length > 100 || nombren.length > 100){
+                    seguir = false
+                    alert("Maxima longitud de nombre permitida: 100")
+                }
+
+                if (descripcion.length > 200){
+                    seguir = false
+                    alert("Maxima longitud de descripción permitida: 200")
+                }
+
+
                 if (nombren === nombrev && nombrev !== ''){
                     seguir = false
                     alert("Los nombres no pueden ser iguales")
