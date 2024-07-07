@@ -1,0 +1,17 @@
+Flask            2.3.3
+Flask-Cors       4.0.1
+Flask-SQLAlchemy 3.0.5
+greenlet         3.0.3
+itsdangerous     2.1.2
+Jinja2           3.1.4
+MarkupSafe       2.1.5
+packaging        24.0
+pip              24.0
+platformdirs     4.2.0
+psycopg2         2.9.9
+pycparser        2.22
+SQLAlchemy       1.4.52.dev0
+virtualenv       20.26.2
+Werkzeug         3.0.1
+wheel            0.43.0
+python           3.12.4   
