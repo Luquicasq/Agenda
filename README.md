@@ -7,7 +7,7 @@ Agenda es una forma práctica de organizar las tareas pendientes a nivel semanal
 --Instalación:
 Para hacer funcionar la aplicación hay que levantar una base de datos con postgresql con tres tablas: tareas, rutina y agenda:
 
-tareas y agenda se crean así:
+Crear tareas y agenda:
 CREATE TABLE nombre_tabla (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(100),
@@ -16,7 +16,7 @@ CREATE TABLE nombre_tabla (
     hora VARCHAR(20)
 );
 
-agenda se crea así:
+Crear agenda:
 CREATE TABLE agenda (
     id SERIAL PRIMARY KEY,
     fkt INT,
