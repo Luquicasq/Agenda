@@ -28,7 +28,7 @@ CREATE TABLE agenda (
 También hay que instalar las dependencias con:
 pip install -r requirements.txt
 
-Con las dependencias ya instaladas y la base de datos corriendo el úlitmo paso es ejecutar app.py desde una terminar de python.
+Con las dependencias ya instaladas y la base de datos corriendo el úlitmo paso es ejecutar app.py desde una terminal de python.
 
 --Uso:
-El uso es intuitivo, hay una pagina principal con la visualización de los eventos y 3 ventanas para crear mas, editar los existentes o borrarlos.
+El uso es intuitivo, hay una pagina principal con la visualización de los eventos y 3 ventanas para crear más, editar los existentes o borrarlos.
